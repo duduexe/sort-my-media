@@ -1,0 +1,74 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Titan+One&display=block" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0;background:#000}
+#ic{width:1024px;height:1024px;display:block}
+</style></head>
+<body>
+<svg id="ic" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs><clipPath id="c"><rect width="1024" height="1024"/></clipPath></defs>
+  <g clip-path="url(#c)" id="waves"></g>
+  <g id="words"></g>
+</svg>
+<script>
+// Wavy stripes like the Dudu Editor icon: dark purple, lilac, light lilac, orange, with dark edges.
+const W=document.getElementById('waves'),NS='http://www.w3.org/2000/svg';
+const cols=['#C5A1F4','#452785','#E6D5FA','#EF9C54','#C5A1F4','#9B30FF','#F3EDFF','#EF9C54','#452785','#C5A1F4','#E6D5FA','#EF9C54','#C5A1F4','#452785','#E6D5FA','#EF9C54','#C5A1F4','#2a1650','#E6D5FA','#EF9C54','#C5A1F4'];
+const band=78;
+function y(x,k){return -260+k*band+0.32*x+Math.sin(x/150+k*0.55)*58+Math.sin(x/61+k)*10}
+for(let k=-5;k<=cols.length+6;k++){
+  let d='M -40 1200 ';
+  for(let x=-40;x<=1064;x+=8)d+='L '+x+' '+y(x,k).toFixed(1)+' ';
+  d+='L 1064 1200 Z';
+  const p=document.createElementNS(NS,'path');
+  p.setAttribute('d',d);p.setAttribute('fill',cols[((k%cols.length)+cols.length)%cols.length]);
+  p.setAttribute('stroke','#2a1650');p.setAttribute('stroke-width','7');p.setAttribute('stroke-linejoin','round');
+  W.appendChild(p);
+}
+// Soft light shine on the stripes
+const g=document.createElementNS(NS,'rect');g.setAttribute('width',1024);g.setAttribute('height',1024);g.setAttribute('fill','url(#shine)');
+const defs=document.querySelector('defs');
+defs.insertAdjacentHTML('beforeend','<radialGradient id="shine" cx="0.5" cy="0.5" r="0.62"><stop offset="0" stop-color="#F3EDFF" stop-opacity="0.38"/><stop offset="1" stop-color="#F3EDFF" stop-opacity="0"/></radialGradient>');
+W.appendChild(g);
+
+// Puffy words with an orange 3D edge, like "DUDU EDITOR"
+const lines=[['SORT',330,250],['MY',540,190],['MEDIA',780,250]];
+const T=document.getElementById('words');
+document.fonts.load('250px "Titan One"').then(()=>{
+  lines.forEach(([t,yy,size])=>{
+    const depth=Math.round(size*0.11);
+    // 3D edge: many orange copies stepping down-right, with a dark outline behind
+    for(let i=depth;i>=1;i--){
+      const e=document.createElementNS(NS,'text');
+      e.textContent=t;e.setAttribute('x',512+i*0.55);e.setAttribute('y',yy+i);
+      e.setAttribute('text-anchor','middle');e.setAttribute('font-family','Titan One');e.setAttribute('font-size',size);
+      e.setAttribute('letter-spacing',size*0.02);
+      e.setAttribute('fill','#EF9C54');e.setAttribute('stroke','#2a1650');e.setAttribute('stroke-width',i===depth?30:22);e.setAttribute('stroke-linejoin','round');e.setAttribute('paint-order','stroke');
+      T.appendChild(e);
+    }
+    for(let i=depth-1;i>=1;i--){
+      const e=document.createElementNS(NS,'text');
+      e.textContent=t;e.setAttribute('x',512+i*0.55);e.setAttribute('y',yy+i);
+      e.setAttribute('text-anchor','middle');e.setAttribute('font-family','Titan One');e.setAttribute('font-size',size);
+      e.setAttribute('letter-spacing',size*0.02);e.setAttribute('fill','#EF9C54');
+      T.appendChild(e);
+    }
+    const f=document.createElementNS(NS,'text');
+    f.textContent=t;f.setAttribute('x',512);f.setAttribute('y',yy);
+    f.setAttribute('text-anchor','middle');f.setAttribute('font-family','Titan One');f.setAttribute('font-size',size);
+    f.setAttribute('letter-spacing',size*0.02);
+    f.setAttribute('fill','#F3EDFF');f.setAttribute('stroke','#2a1650');f.setAttribute('stroke-width','14');f.setAttribute('stroke-linejoin','round');f.setAttribute('paint-order','stroke');
+    T.appendChild(f);
+    // small shine on each word
+    const s=document.createElementNS(NS,'text');
+    s.textContent=t;s.setAttribute('x',512);s.setAttribute('y',yy);
+    s.setAttribute('text-anchor','middle');s.setAttribute('font-family','Titan One');s.setAttribute('font-size',size);
+    s.setAttribute('letter-spacing',size*0.02);s.setAttribute('fill','url(#lift)');
+    T.appendChild(s);
+  });
+  document.body.dataset.ready='1';
+});
+defs.insertAdjacentHTML('beforeend','<linearGradient id="lift" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity="0.55"/><stop offset="0.45" stop-color="#ffffff" stop-opacity="0"/><stop offset="1" stop-color="#C5A1F4" stop-opacity="0.35"/></linearGradient>');
+</script>
+</body></html>

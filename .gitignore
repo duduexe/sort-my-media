@@ -1,0 +1,7 @@
+# Made by the app on each Mac: personal, never shared
+projects/
+.cache/
+_test/
+*.log
+.DS_Store
+__pycache__/
