@@ -5,3 +5,7 @@ _test/
 *.log
 .DS_Store
 __pycache__/
+# Made by Claude Code or test tools on this Mac: holds the Mac user name and paths, never shared
+.omc/
+.claude/
+.playwright-mcp/

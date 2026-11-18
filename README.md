@@ -1,6 +1,6 @@
 # Sort my Media
 
-Turns a messy pile of photos, videos and sounds into clear folders. Claude looks at every file, even listens to the sounds, and suggests where each one goes. You check the plan before anything moves, and you can put everything back with one click. Everything stays on your Mac.
+Turns a messy pile of photos, videos and sounds into clear folders. Claude looks at every file, even listens to the sounds, and suggests where each one goes. You check the plan before anything moves, and you can put everything back with one click. Your files stay on your Mac. Claude only sees small previews, the file names and short text clues (for example the first 30 seconds of speech, turned into text on your Mac), through your own Claude plan.
 
 ## What you need
 - A Mac.
